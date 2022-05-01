@@ -10,4 +10,9 @@ class CartController extends Controller
     {
         return view('shop.cart.index');
     }
+
+    public function add($id)
+    {
+        return "Adicionando o produto {$id} no carrinho";
+    }
 }

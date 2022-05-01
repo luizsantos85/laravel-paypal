@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg menu">
+<nav class="navbar navbar-expand-lg navbar-dark menu">
     <div class="container-fluid container">
         <a class="logomarca" href="{{route('home')}}">
             <img src="{{ asset('assets/img/Logomarca.png')}}" alt="LHSCODE">

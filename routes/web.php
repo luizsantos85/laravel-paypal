@@ -7,4 +7,5 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', [ShopController::class, 'index'])->name('home');
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::get('/add-cart/{id}', [CartController::class, 'add'])->name('add.cart');
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');
