@@ -9,7 +9,7 @@ class Cart extends Model
 {
     use HasFactory;
 
-    private $items = [];
+    public $items = [];
 
     public function __construct()
     {
@@ -19,7 +19,7 @@ class Cart extends Model
         }
     }
 
-    public function add(Product $product)
+    public function addItem(Product $product)
     {
         if (isset($this->items[$product->id])) {
             $this->items[$product->id] = [

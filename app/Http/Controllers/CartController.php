@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Models\Product;
 use App\Models\Cart;
 
@@ -10,34 +11,30 @@ class CartController extends Controller
 {
     public function index()
     {
-
-        if (session()->has('cart')) {
-            dd(session()->get('cart'));
-        }
-
-        $cart = session()->has('cart') ? session()->get('cart') : new Cart;
+        dd(Session::get('cart'));
+        $cart = Session::has('cart') ? Session::get('cart') : new Cart;
         // $total = $cart->total();
         $products = $cart->getItems();
 
         return view('shop.cart.index', compact('products'));
     }
 
-    public function add(Request $request, $id)
+    public function add($id)
     {
         $product = Product::find($id);
-        if (!$product)
+        if (!$product) {
             return redirect()->route('home');
+        }
 
         $cart = new Cart;
-        $cart->add($product);
+        $cart->addItem($product);
 
-        $request->session()->put('cart', $cart);
-        dd(session()->get('cart'));
+        Session::put('cart', $cart);
 
         return redirect()->route('cart');
     }
 
-    public function decrement(Request $request, $id)
+    public function decrement($id)
     {
         $product = Product::find($id);
         if (!$product)
@@ -46,7 +43,7 @@ class CartController extends Controller
         $cart = new Cart;
         $cart->removeItem($product);
 
-        $request->session()->put('cart', $cart);
+        Session::put('cart', $cart);
 
         return redirect()->route('cart');
     }
