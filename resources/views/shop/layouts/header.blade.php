@@ -24,8 +24,15 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('cart')}}">Meu carrinho <i class="bi bi-cart-fill"></i> <span
-                            class="badge rounded-pill bg-secondary">0</span>
+                    <a class="nav-link" href="{{route('cart')}}">Meu carrinho
+                        <i class="bi bi-cart-fill"></i>
+                        <span class="badge rounded-pill bg-secondary">
+                            @if (Session::has('cart'))
+                            {{Session::get('cart')->totalItems()}}
+                            @else
+                            0
+                            @endif
+                        </span>
                     </a>
                 </li>
             </ul>

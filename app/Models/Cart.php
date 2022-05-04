@@ -52,4 +52,26 @@ class Cart extends Model
     {
         return $this->items;
     }
+
+    public function totalPrice()
+    {
+        $total = 0;
+
+        if (count($this->items) == 0) {
+            return $total;
+        }
+
+        foreach ($this->items as $item) {
+            $subTotal = $item['item']->price * $item['qtd'];
+
+            $total += $subTotal;
+        }
+
+        return $total;
+    }
+
+    public function totalItems()
+    {
+        return count($this->items);
+    }
 }

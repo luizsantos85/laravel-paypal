@@ -15,27 +15,33 @@
             </tr>
         </thead>
         <tbody>
-            @for ($i = 0; $i < 4; $i++) <tr>
+            @forelse ($products as $product)
+
+            <tr>
                 <td>
                     <div class="productItemTable">
-                        <img src="{{asset('assets/img/tmp/mouse.jpg')}}" alt="image_product">
-                        <p>My Product Name</p>
+                        <img src="{{asset("assets/img/tmp/{$product['item']->image}")}}" alt="image_product">
+                        <p>{{$product['item']->title}}</p>
                     </div>
                 </td>
-                <td>R$ 30,00</td>
+                <td>{{number_format($product['item']->price,2,',','.')}}</td>
                 <td>
-                    <a href="" class="itemAddRemove"><i class="bi bi-plus-circle"></i></a>
-                    2
-                    <a href="" class="itemAddRemove"><i class="bi bi-dash-circle"></i></a>
+                    <a href="{{route('add.cart',$product['item']->id)}}" class="itemAddRemove"><i class="bi bi-plus-circle"></i></a>
+                    {{$product['qtd']}}
+                    <a href="{{route('remove.cart',$product['item']->id)}}" class="itemAddRemove"><i class="bi bi-dash-circle"></i></a>
                 </td>
-                <td>R$ 60,00</td>
+                <td>R$ {{number_format($product['item']->price * $product['qtd'],2,',','.')}}</td>
                 </tr>
-                @endfor
+                @empty
+                    <tr>
+                        <td colspan="20">Carrinho vazio!</td>
+                    </tr>
+                @endforelse
         </tbody>
     </table>
 
     <div class="total ">
-        <h2>Total: R$ 60,00</h2>
+        <h2>Total: R$ {{$total}}</h2>
         <a href="" class="btn btn-success">Finalizar compra</a>
     </div>
 

@@ -11,12 +11,11 @@ class CartController extends Controller
 {
     public function index()
     {
-        dd(Session::get('cart'));
         $cart = Session::has('cart') ? Session::get('cart') : new Cart;
-        // $total = $cart->total();
+        $total = number_format($cart->totalPrice(),2,',','.');
         $products = $cart->getItems();
 
-        return view('shop.cart.index', compact('products'));
+        return view('shop.cart.index', compact('products','total'));
     }
 
     public function add($id)
@@ -47,4 +46,6 @@ class CartController extends Controller
 
         return redirect()->route('cart');
     }
+
+
 }
