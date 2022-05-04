@@ -15,7 +15,7 @@ img {
 .menu li > a {
     color: #fff;
 }
-.logomarca img {
+.logomarca {
     width: 200px;
 }
 .title {
