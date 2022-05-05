@@ -29,8 +29,7 @@
 
 
                         <div class="col-md-12 mb-3 form-group">
-                            <label for="password" class="col-form-label text-md-end">{{ __('Password')
-                                }}</label>
+                            <label for="password" class="col-form-label text-md-end">Senha</label>
                             <input id="password" type="password"
                                 class="form-control @error('password') is-invalid @enderror" name="password" required
                                 autocomplete="current-password">
@@ -46,16 +45,16 @@
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
+                                    Logar
                                 </button>
 
                                 @if (Route::has('password.request'))
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
+                                    Esqueceu a senha?
                                 </a>
                                 @endif
 
-                                <a class="btn btn-link" href="{{ route('register') }}">
+                                <a class="btn btn-link text-center" href="{{ route('register') }}">
                                     Ainda não tem cadastro? Cadastre-se!
                                 </a>
                             </div>

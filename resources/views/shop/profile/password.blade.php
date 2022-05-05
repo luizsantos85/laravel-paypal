@@ -7,29 +7,28 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header bg-secondary text-center">
-                <h1 class="title text-light"><i class="bi bi-person-badge"></i> Meu Perfil:</h1>
+                <h1 class="title text-light"><i class="bi bi-file-lock"></i> Atualizar senha:</h1>
             </div>
 
             <div class="card-body">
 
                 @include('shop.components.alerts')
 
-                <form action="{{route('profile.update')}}" method="POST" class="form">
+                <form action="{{route('profile.updatePass')}}" method="POST" class="form">
                     @csrf
                     @method('PUT')
 
                     <div class="form-group">
-                        <label for="name">Nome:</label>
-                        <input type="text" name="name" value="{{auth()->user()->name}}" class="form-control">
+                        <label for="name">Nova Senha:</label>
+                        <input type="password" name="password" class="form-control" required>
                     </div>
 
                     <div class="form-group mt-3">
-                        <label for="name">E-mail:</label>
-                        <input type="email" name="email" value="{{auth()->user()->email}}" class="form-control"
-                            disabled>
+                        <label for="name">Confirmar nova senha</label>
+                        <input type="password" name="confirmPassword" class="form-control" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-4">Atualizar</button>
+                    <button type="submit" class="btn btn-primary mt-4">Atualizar senha</button>
 
                 </form>
 

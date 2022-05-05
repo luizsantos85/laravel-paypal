@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark menu">
     <div class="container-fluid container">
-        <a  href="{{route('home')}}">
+        <a href="{{route('home')}}">
             <img class="logomarca" src="{{ asset('assets/img/Logomarca.png')}}" alt="LHSCODE">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -28,14 +28,14 @@
 
                 @auth
                 <li class="nav-item dropdown ">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Name User
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        {{auth()->user()->name}}
                     </a>
                     <ul class="dropdown-menu menu " aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item" href="{{route('profile')}}">Perfil</a></li>
-                        <li><a class="dropdown-item" href="#">Alterar senha</a></li>
-                        <li><a class="dropdown-item" href="{{route('logout')}}">Sair</a></li>
+                        <li><a class="dropdown-item" href="{{route('profile.userPass')}}">Alterar senha</a></li>
+                        <li><a class="dropdown-item" href="{{route('profile.logout')}}">Sair</a></li>
                     </ul>
                 </li>
                 @else
