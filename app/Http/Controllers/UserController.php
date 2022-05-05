@@ -19,10 +19,6 @@ class UserController extends Controller
 
     public function updateName(UserUpdateRequest $request)
     {
-        if (!$request->name) {
-            return redirect()->back()->with('error', 'O campo nome deve ser preenchido.');
-        }
-
         $user = User::find(auth()->user()->id);
         $user->name = $request->name;
         $user->save();
@@ -37,10 +33,6 @@ class UserController extends Controller
 
     public function updatePass(UserPassUpdateRequest $request)
     {
-        if ($request->password !== $request->confirmPassword) {
-            return redirect()->back()->with('error', 'As senhas não batem.');
-        }
-
         $user = User::find(auth()->user()->id);
         $user->password = bcrypt($request->password);
         $user->save();

@@ -25,7 +25,7 @@
 
                     <div class="form-group mt-3">
                         <label for="name">Confirmar nova senha</label>
-                        <input type="password" name="confirmPassword" class="form-control" required>
+                        <input type="password" name="password_confirmation" class="form-control" required>
                     </div>
 
                     <button type="submit" class="btn btn-primary mt-4">Atualizar senha</button>
