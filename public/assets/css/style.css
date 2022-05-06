@@ -76,5 +76,6 @@ img {
 .total h2 {
     font-size: 1.5rem;
 }
-.total a {
+.dash {
+    color: #e74c3c;
 }

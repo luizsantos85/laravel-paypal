@@ -24,6 +24,7 @@ Route::middleware('auth')->prefix('profile')->group(function(){
     Route::get('user-password', [UserController::class, 'userPass'])->name('profile.userPass');
     Route::put('update-password', [UserController::class, 'updatePass'])->name('profile.updatePass');
 
+    Route::get('return-paypal',[PayPalController::class,'returnPaypal'])->name('return.paypal');
 
 });
 

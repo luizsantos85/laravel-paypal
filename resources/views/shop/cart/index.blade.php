@@ -28,7 +28,7 @@
                 <td>
                     <a href="{{route('add.cart',$product['item']->id)}}" class="itemAddRemove"><i class="bi bi-plus-circle"></i></a>
                     {{$product['qtd']}}
-                    <a href="{{route('remove.cart',$product['item']->id)}}" class="itemAddRemove"><i class="bi bi-dash-circle"></i></a>
+                    <a href="{{route('remove.cart',$product['item']->id)}}" class="itemAddRemove"><i class="bi bi-dash-circle dash"></i></a>
                 </td>
                 <td>R$ {{number_format($product['item']->price * $product['qtd'],2,',','.')}}</td>
                 </tr>
