@@ -42,7 +42,7 @@
 
     <div class="total ">
         <h2>Total: R$ {{$total}}</h2>
-        <a href="" class="btn btn-success">Finalizar compra</a>
+        <a href="{{route('paypal')}}" class="btn btn-success">Finalizar compra</a>
     </div>
 
 </div>

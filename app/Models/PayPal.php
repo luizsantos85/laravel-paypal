@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use PayPal\Api\Amount;
-use PayPal\Api\ApiContext;
 use PayPal\Api\Details;
 use PayPal\Api\Item;
 use PayPal\Api\ItemList;
@@ -15,8 +14,8 @@ use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
-use PayPal\Api\OAuthTokenCredential;
-
+use PayPal\Rest\ApiContext;
+use PayPal\Auth\OAuthTokenCredential;
 
 class PayPal extends Model
 {
@@ -24,8 +23,9 @@ class PayPal extends Model
 
     private $apiContext;
     private $identify;
+    private $cart;
 
-    public function __construct()
+    public function __construct(Cart $cart)
     {
         $this->apiContext = new ApiContext(
             new OAuthTokenCredential(config('paypal.client_id'), config('paypal.secret_id'))
@@ -34,6 +34,8 @@ class PayPal extends Model
         $this->apiContext->setConfig(config('paypal.settings'));
 
         $this->identify = bcrypt(uniqid('YmdHis'));
+
+        $this->cart = $cart;
     }
 
     public function generate()
@@ -41,7 +43,7 @@ class PayPal extends Model
         $payer = new Payer();
         $payer->setPaymentMethod("paypal");
 
-        $item1 = new Item();
+        /* $item1 = new Item();
         $item1->setName('Ground Coffee 40 oz')
             ->setCurrency('BRL')
             ->setQuantity(1)
@@ -51,24 +53,38 @@ class PayPal extends Model
             ->setCurrency('BRL')
             ->setQuantity(5)
             ->setPrice(2);
+ */
+        $items = [];
+        $itemsCart = $this->cart->getItems();
+        foreach ($itemsCart as $itemCart) {
+            $item = new Item();
+            $item->setName($itemCart['item']->title)
+                ->setCurrency('BRL')
+                ->setQuantity($itemCart['qtd'])
+                ->setPrice($itemCart['item']->price);
+
+            array_push($items, $item);
+        }
 
         $itemList = new ItemList();
-        $itemList->setItems(array($item1, $item2));
+        $itemList->setItems($items);
 
         $details = new Details();
-        $details->setShipping(1.2)
-            ->setTax(1.3)
+        $details->setSubtotal($this->cart->totalPrice());
+        /* $details->setShipping(1.2)  //Tarifas
+            ->setTax(1.3)           //frete
             ->setSubtotal(17.50);
+        */
 
         $amount = new Amount();
         $amount->setCurrency("BRL")
-            ->setTotal(20)
+            ->setTotal($this->cart->totalPrice())   //caso utilize frete ou taxas somar ao total da compra
             ->setDetails($details);
 
         $transaction = new Transaction();
         $transaction->setAmount($amount)
             ->setItemList($itemList)
-            ->setDescription("Payment description")
+            ->setDescription("Compra Loja Laravel com Paypal")
             ->setInvoiceNumber($this->identify);
 
         $baseRoute = route('return.paypal');
