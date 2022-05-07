@@ -16,23 +16,21 @@
                 <li class="nav-item">
                     <a class="nav-link {{request()->is('cart') ? 'active' : ''}}" href="{{route('cart')}}">Meu carrinho
                         <i class="bi bi-cart-fill"></i>
+                        @if (Session::has('cart') && Session::get('cart')->totalItems() > 0)
                         <span class="badge rounded-pill bg-secondary">
-                            @if (Session::has('cart'))
                             {{Session::get('cart')->totalItems()}}
-                            @else
-                            0
-                            @endif
                         </span>
+                        @endif
                     </a>
                 </li>
 
                 @auth
                 <li class="nav-item dropdown ">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle {{request()->is('profile') ? 'active' : ''}}" href="#"
+                        id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{auth()->user()->name}}
                     </a>
-                    <ul class="dropdown-menu menu " aria-labelledby="navbarDropdownMenuLink">
+                    <ul class="dropdown-menu menu" aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item" href="{{route('profile')}}">Perfil</a></li>
                         <li><a class="dropdown-item" href="{{route('profile.userPass')}}">Alterar senha</a></li>
                         <li><a class="dropdown-item" href="{{route('profile.logout')}}">Sair</a></li>

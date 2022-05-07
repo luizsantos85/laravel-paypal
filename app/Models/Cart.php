@@ -19,6 +19,9 @@ class Cart extends Model
         }
     }
 
+    /**
+     * Adiciona itens no carrinho
+     */
     public function addItem(Product $product)
     {
         if (isset($this->items[$product->id])) {
@@ -34,6 +37,9 @@ class Cart extends Model
         }
     }
 
+    /**
+     * Remove itens do carrinho
+     */
     public function removeItem(Product $product)
     {
         if (isset($this->items[$product->id])) {
@@ -48,11 +54,17 @@ class Cart extends Model
         }
     }
 
+    /**
+     * Recuperar itens do carrinho
+     */
     public function getItems()
     {
         return $this->items;
     }
 
+    /**
+     * Retorna o preço total dos itens
+     */
     public function totalPrice()
     {
         $total = 0;
@@ -70,6 +82,9 @@ class Cart extends Model
         return $total;
     }
 
+    /**
+     * Retorna os total de itens no carrinho
+     */
     public function totalItems()
     {
         return count($this->items);
