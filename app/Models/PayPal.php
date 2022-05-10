@@ -5,6 +5,7 @@ namespace App\Models;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Order;
 
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
@@ -12,6 +13,7 @@ use PayPal\Api\Item;
 use PayPal\Api\ItemList;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
+use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 use PayPal\Rest\ApiContext;
@@ -30,6 +32,7 @@ class PayPal extends Model
         $this->apiContext = new ApiContext(
             new OAuthTokenCredential(config('paypal.client_id'), config('paypal.secret_id'))
         );
+
         $this->apiContext->setConfig(config('paypal.settings'));
         $this->identify = bcrypt(uniqid('YmdHis'));
         $this->cart = $cart;
@@ -47,6 +50,15 @@ class PayPal extends Model
 
         try {
             $payment->create($this->apiContext);
+            $paymentId = $payment->getId();
+
+            Order::create([
+                'user_id'       => auth()->user()->id,
+                'total'         => $this->cart->totalPrice(),
+                'status'        => 'started',
+                'payment_id'    => $paymentId,
+                'identify'      => $this->identify,
+            ]);
         } catch (Exception $ex) {
             // ResultPrinter::printError("Created Payment Order Using PayPal. Please visit the URL to Approve.", "Payment", null, $request, $ex);
             exit(1);
@@ -142,5 +154,24 @@ class PayPal extends Model
             ->setCancelUrl("{$baseRoute}?success=false");
 
         return $redirectUrls;
+    }
+
+    /**
+     * Aprovação do pedido
+     */
+    public function execute($paymentId, $token, $payerId)
+    {
+        $payment = Payment::get($paymentId, $this->apiContext);
+
+        if ($payment->getState() != 'approved') {
+            $execution = new PaymentExecution();
+            $execution->setPayerId($payerId);
+
+            $result = $payment->execute($execution, $this->apiContext);
+
+            return $result->getState();
+        }
+
+        return $payment->getState();
     }
 }
