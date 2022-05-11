@@ -5,6 +5,9 @@
 
 <h1 class="title"><i class="bi bi-cart"></i> Meu Carrinho:</h1>
 <div class="row justify-content-center">
+
+    @include('shop.components.alerts')
+
     <table class="table table-hover table-striped align-items-center">
         <thead>
             <tr>

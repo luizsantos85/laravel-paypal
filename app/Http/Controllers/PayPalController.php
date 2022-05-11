@@ -16,11 +16,25 @@ class PayPalController extends Controller
         $this->middleware('cart-items');
     }
 
-    public function paypal()
+    public function paypal(Order $order)
     {
         $cart = new Cart;
         $paypal = new PayPal($cart);
-        return redirect()->away($paypal->generate());
+        $result = $paypal->generate();
+
+        if ($result['status']) {
+            //cria nova ordem de produtos
+            $order->newOrderProducts(
+                $cart->totalPrice(),
+                $result['payment_id'],
+                $result['identify'],
+                $cart->getItems()
+            );
+
+            return redirect()->away($result['url_paypal']);
+        } else {
+            return redirect()->route('cart')->with('message', 'Erro inesperado.');
+        }
     }
 
     public function returnPaypal(Request $request, Order $order)
@@ -30,7 +44,7 @@ class PayPalController extends Controller
         $token = $request->token;
         $payerId = $request->PayerID;
 
-        if(!$success){
+        if (!$success) {
             dd('Pedido cancelado!');
         }
 
@@ -38,13 +52,12 @@ class PayPalController extends Controller
         $paypal = new PayPal($cart);
         $result = $paypal->execute($paymentId, $token, $payerId);
 
-        if($result == 'approved'){
-            $order->where('payment_id',$paymentId)->update(['status' => 'approved']);
+        if ($result == 'approved') {
+            $order->where('payment_id', $paymentId)->update(['status' => 'approved']);
 
             return redirect()->route('home');
-        }else{
+        } else {
             dd('Pedido não aprovado!');
         }
-
     }
 }

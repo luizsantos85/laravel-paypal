@@ -51,23 +51,20 @@ class PayPal extends Model
         try {
             $payment->create($this->apiContext);
             $paymentId = $payment->getId();
+            $approvalUrl = $payment->getApprovalLink();
 
-            Order::create([
-                'user_id'       => auth()->user()->id,
-                'total'         => $this->cart->totalPrice(),
-                'status'        => 'started',
-                'payment_id'    => $paymentId,
-                'identify'      => $this->identify,
-            ]);
+            return [
+                'status' => true,
+                'url_paypal' => $approvalUrl,
+                'identify' => $this->identify,
+                'payment_id' => $paymentId
+            ];
         } catch (Exception $ex) {
-            // ResultPrinter::printError("Created Payment Order Using PayPal. Please visit the URL to Approve.", "Payment", null, $request, $ex);
-            exit(1);
+            return [
+                'status' => false,
+                'message' => $ex->getMessage()
+            ];
         }
-
-        $approvalUrl = $payment->getApprovalLink();
-        // ResultPrinter::printResult("Created Payment Order Using PayPal. Please visit the URL to Approve.", "Payment", "<a href='$approvalUrl' >$approvalUrl</a>", $request, $payment);
-
-        return $approvalUrl;
     }
 
     public function payer()
