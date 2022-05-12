@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function(){
 
     Route::get('paypal',[PayPalController::class, 'paypal'])->name('paypal');
     Route::get('return-paypal',[PayPalController::class,'returnPaypal'])->name('return.paypal');
+
+    Route::get('my-requests',[ShopController::class,'orders'])->name('orders');
 });
 
 

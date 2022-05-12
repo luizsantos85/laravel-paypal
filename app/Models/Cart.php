@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
 
 class Cart extends Model
 {
@@ -13,8 +14,8 @@ class Cart extends Model
 
     public function __construct()
     {
-        if (session()->has('cart')) {
-            $cart = session()->get('cart');
+        if (Session::has('cart')) {
+            $cart = Session::get('cart');
             $this->items = $cart->items;
         }
     }
@@ -88,5 +89,11 @@ class Cart extends Model
     public function totalItems()
     {
         return count($this->items);
+    }
+
+    public function emptyCart()
+    {
+        if(Session::has('cart'))
+            Session::forget('cart');
     }
 }

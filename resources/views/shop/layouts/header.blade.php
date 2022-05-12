@@ -33,6 +33,7 @@
                     <ul class="dropdown-menu menu" aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item" href="{{route('profile')}}">Perfil</a></li>
                         <li><a class="dropdown-item" href="{{route('profile.userPass')}}">Alterar senha</a></li>
+                        <li><a class="dropdown-item" href="{{route('orders')}}">Meus pedidos</a></li>
                         <li><a class="dropdown-item" href="{{route('profile.logout')}}">Sair</a></li>
                     </ul>
                 </li>
