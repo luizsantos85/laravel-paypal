@@ -13,7 +13,7 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'order_product');
+        return $this->belongsToMany(Product::class, 'order_product')->withPivot('quantity','price');
     }
 
     public function newOrderProducts($totalCart, $paymentId, $identify, $itemsCart)

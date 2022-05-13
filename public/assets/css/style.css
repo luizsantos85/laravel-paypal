@@ -9,6 +9,9 @@ body {
 img {
     width: 100%;
 }
+a{
+    text-decoration: none;
+}
 .menu {
     background-color: #004d40;
 }

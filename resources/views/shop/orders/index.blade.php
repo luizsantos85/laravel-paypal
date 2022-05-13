@@ -25,9 +25,9 @@
                 <td>{{$item->status}}</td>
                 <td>{{$item->total}}</td>
                 <td>{{date('d/m/Y',strtotime($item->created_at))}}</td>
-                
+
                 <td>
-                    <a href=""><i class="bi bi-basket2"></i> Ver produtos</a>
+                    <a href="{{route('order.details',$item->id)}}"><i class="bi bi-basket2"></i> Ver produtos</a>
                 </td>
             </tr>
             @empty
